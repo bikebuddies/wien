@@ -116,3 +116,11 @@ footer nav {
     display: inline-block;
     margin: 0 10px;
 }
+
+/*position: absolute lässt Dropdown überlappen */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    z-index: 999;
+    background-color: white;
+}
