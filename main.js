@@ -159,6 +159,14 @@ L.control.scale({
     imperial: false,
 }).addTo(map);
 
+//Geolocation
+map.locate({
+    setView: false,
+    maxZoom: 16,
+    watch: true,
+});
+
+
 // //GPX-Track visualisieren -> Höhenprofile (es sind noch nicht alle)
 // let controlElevation = L.control.elevation({
 //     time: false,
@@ -235,13 +243,9 @@ pulldown.onchange = function(evt) {
 }
 */
 
-/* Geolocation würd ich auf der Übersichtskarte weglassen, damit es wirklich nur eine Übersicht wird.
-map.locate({
-    setView: true,
-    watch: true, 
-    maxZoom: 16
-});
 
+
+/*
 let circle = L.circle([0, 0], 0).addTo(map);
 let marker = L.marker([0, 0], 0).addTo(map);
 
