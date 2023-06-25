@@ -243,8 +243,6 @@ pulldown.onchange = function(evt) {
 }
 */
 
-
-
 /*
 let circle = L.circle([0, 0], 0).addTo(map);
 let marker = L.marker([0, 0], 0).addTo(map);
