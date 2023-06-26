@@ -124,6 +124,14 @@ L.control.scale({
     imperial: false,
 }).addTo(map);
 
+
+// Instanz Leaflet MiniMap
+var miniMap = new L.Control.MiniMap(
+    L.tileLayer.provider("BasemapAT.basemap"), {
+    toggleDisplay: true,
+}
+).addTo(map);
+
 //Geolocation
 map.locate({
     setView: false,
@@ -189,6 +197,48 @@ map.on("click", function (evt) {
     let url = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${evt.latlng.lat}&lon=${evt.latlng.lng}`;
     showForecast(url, evt.latlng);
 });
+
+//GPX-Tracks
+//Unten und Oben Radweg Wien
+var gpx = './data/5_Unten-amp-Oben.gpx';
+let ybbs = new L.GPX(gpx, {
+    polyline_options: {
+        color: '#EEDD82',
+        opacity: 0.75,
+        weight: 3
+    },
+    marker_options: {
+        startIconUrl: "icons/tab_cycle.png",
+        endIconUrl: false,
+        shadowUrl: false,
+        wptIconUrls: false
+    }
+}).addTo(themaLayer.ybbstal);
+// GPX Track visualisieren aus https://raruto.github.io/leaflet-elevation/
+ybbs.on("click", function (evt) {
+    let controlElevation = L.control.elevation({
+        time: false,
+        elevationDiv: "#profile",
+        height: 300,
+        theme: "untenundoben"
+    }).addTo(map);
+    // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
+    controlElevation.load("./data/5_Unten-amp-Oben.gpx")
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // //GPX-Track visualisieren -> Höhenprofile (es sind noch nicht alle)
