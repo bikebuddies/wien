@@ -25,7 +25,7 @@ let themaLayer = {
     badeseen: L.featureGroup(),
 }
 
-// Hintergrundlayer 
+//Hintergrundlayer 
 //noch den schöneren von der Hauptkarte einfügen, wenn wir das geschafft haben 
 let eGrundkarteWien = L.control.layers({
     "Terrain": L.tileLayer.provider("Stamen.Terrain").addTo(map),
