@@ -7,27 +7,22 @@ let stpolten = {
     title: "St. Pölten, Niederösterreich"
 }
 
-
 // Karte initialisieren und Fullscreen Control 
 let map = L.map("map", {
     fullscreenControl: true
 }).setView([
-    stpolten.lat, stpolten.lng
-], 7.5);
+    48.2082, 16.3738 // Koordinaten des Zentrums von Wien
+], 10);
+
 
 
 // thematische Layer
 let themaLayer = {
-    kampThayaMarch: L.featureGroup(),
-    piestingtal: L.featureGroup(),
-    thayarunde: L.featureGroup(),
-    traisental: L.featureGroup(),
-    triestingGoelsental: L.featureGroup(),
-    triestingau: L.featureGroup(),
-    ybbstal: L.featureGroup(),
-    eurovelo6: L.featureGroup(),
-    eurovelo9: L.featureGroup(),
-    eurovelo13: L.featureGroup(),
+    untenundoben: L.featureGroup(),
+    wienerwasser: L.featureGroup(),
+    donaustadt: L.featureGroup(),
+    wasserzuwein: L.featureGroup(),
+    wienerwald: L.featureGroup(),
     forecast: L.featureGroup(),
 }
 
@@ -39,64 +34,53 @@ let eGrundkarteWien = L.control.layers({
     "OpenTopoMap": L.tileLayer.provider("OpenTopoMap"),
     "CycleTrails": L.tileLayer.provider("CyclOSM"),
 }, {
-    "Unten und Oben": themaLayer.kampThayaMarch.addTo(map),
-    "Piestingtal-Radweg": themaLayer.piestingtal.addTo(map),
-    "Thayarunde": themaLayer.thayarunde.addTo(map),
-    "Traisental-Radweg": themaLayer.traisental.addTo(map),
-    "Triesting-Gölsental-Radweg": themaLayer.triestingGoelsental.addTo(map),
+    "Unten und Oben": themaLayer.untenundoben.addTo(map),
+    "Wiener Wasser": themaLayer.wienerwasser.addTo(map),
+    "Donaustadt": themaLayer.donaustadt.addTo(map),
+    "Wasser zu Wein": themaLayer.wasserzuwein.addTo(map),
+    "Wienerwald": themaLayer.wienerwald.addTo(map),
     "Wettervorhersage MET Norway": themaLayer.forecast,
 }).addTo(map);
 
 
-var gpx = './data/niederoesterreich/kamp_thaya_march.gpx';
+var gpx = './data/5_Unten-amp-Oben.gpx';
 new L.GPX(gpx, { async: true }, {
-    //Polylinien stylen funktioniert noch nicht, marker ausschalten auch nicht
     polyline_options: [{
-        color: `#76eec6`,
+        color: '#76eec6',
         opacity: 0.75,
         weight: 3
     }, {
-        color: `#76eec6`,
+        color: '#76eec6',
         opacity: 0.75,
         weight: 3
     }]
 }, {
-    marker_options: {
-        startIconUrl: false,
-        endIconUrl: false,
-        shadowUrl: false
-    }
+    marker_options: false // Marker ausschalten
 }).on('loaded', function (e) {
-    //   map.fitBounds(e.target.getBounds());
-}).addTo(themaLayer.kampThayaMarch);
+    // map.fitBounds(e.target.getBounds());
+}).addTo(themaLayer.untenundoben);
 
 
-var gpx = './data/5_Unten-amp-Oben.gpx';
+var gpx = './data/6_Wiener-Wasser.gpx';
 new L.GPX(gpx, { async: true }).on('loaded', function (e) {
     //   map.fitBounds(e.target.getBounds());
-}).addTo(themaLayer.piestingtal);
+}).addTo(themaLayer.wienerwasser);
 
-var gpx = './data/niederoesterreich/thayarunde.gpx';
+var gpx = './data/donaustadt.gpx';
 new L.GPX(gpx, { async: true }).on('loaded', function (e) {
     //   map.fitBounds(e.target.getBounds());
-}).addTo(themaLayer.thayarunde);
+}).addTo(themaLayer.donaustadt);
 
-var gpx = './data/niederoesterreich/traisentalweg.gpx';
+var gpx = './data/wasser-zu-Wein.gpx';
 new L.GPX(gpx, { async: true }).on('loaded', function (e) {
     //   map.fitBounds(e.target.getBounds());
-}).addTo(themaLayer.traisental);
+}).addTo(themaLayer.wasserzuwein);
 
-var gpx = './data/niederoesterreich/triesting_goelsental.gpx';
+var gpx = './data/wienerwald.gpx';
 new L.GPX(gpx, { async: true }).on('loaded', function (e) {
     //   map.fitBounds(e.target.getBounds());
-}).addTo(themaLayer.triestingGoelsental);
+}).addTo(themaLayer.wienerwald);
 
-var gpx = './data/niederoesterreich/triestingau.gpx';
-new L.GPX(gpx, { async: true }).on('loaded', function (e) {
-    //   map.fitBounds(e.target.getBounds());
-}).addTo(themaLayer.triestingau);
-
-//Eurovelos erscheinen noch nicht
 
 // Marker der größten Städte
 const STAEDTE = [
