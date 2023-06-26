@@ -166,6 +166,20 @@ map.locate({
     watch: true,
 });
 
+let circle = L.circle([0, 0], 0).addTo(map);
+
+map.on('locationfound', function (evt) {
+    let radius = Math.round(evt.accuracy);
+    L.circle(evt.latlng, radius).addTo(map);
+    circle.setLatLng(evt.latlng);
+    circle.setRadius(radius);
+}
+);
+
+map.on('locationerror', function (evt) {
+    alert(evt.message);
+});
+
 
 // //GPX-Track visualisieren -> Höhenprofile (es sind noch nicht alle)
 // let controlElevation = L.control.elevation({
