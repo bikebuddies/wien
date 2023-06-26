@@ -22,6 +22,7 @@ let themaLayer = {
     wasserzuwein: L.featureGroup(), //https://www.mobilitaetsagentur.at/touren/#wasser-zu-wein
     wienerwald: L.featureGroup(), //https://www.mobilitaetsagentur.at/touren/#euro-velo-9-wienerwald
     forecast: L.featureGroup(),
+    badeseen: L.featureGroup(),
 }
 
 // Hintergrundlayer 
@@ -38,6 +39,7 @@ let eGrundkarteWien = L.control.layers({
     "Wasser zu Wein": themaLayer.wasserzuwein.addTo(map),
     "Wienerwald": themaLayer.wienerwald.addTo(map),
     "Wettervorhersage MET Norway": themaLayer.forecast,
+    "Badeseen": themaLayer.badeseen
 }).addTo(map);
 
 // Layer beim Besuch auf der Seite ausklappen
@@ -258,7 +260,42 @@ wasserzuwein.on("click", function (evt) {
 });
 
 
+//Badeseen
+const BADESEEN = [
+    {
+        title: "Badeteich Hirschstetten", 
+        lat: 48.24409868606938, 
+        lng: 16.47893976489515,
+    },
+    {
+        title: "Dechantlacke", 
+        lat: 48.19111090673952,
+        lng: 16.476402395256347,
+    },
+    {
+        title: "Wienerbergteich", 
+        lat: 48.161023220047774,
+        lng: 16.35031677503551
+    },
+    {
+        title: "Haderdorfer Bad", 
+        lat: 48.208558890188606,  
+        lng: 16.222905203752738,
+    }
+];
 
+for (let badeseen of BADESEEN) {
+    L.marker([badeseen.lat, badeseen.lng], {
+        icon: L.icon({
+            iconUrl: `icons/swimming.png`,
+            popupAnchor: [0, -37],
+            iconAnchor: [16, 37],
+        })
+    })
+        .addTo(themaLayer.badeseen)
+        .bindPopup(`<b>${badeseen.title}</b> <br>
+    `)
+};
 
 
 // Maßstab
