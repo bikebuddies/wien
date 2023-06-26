@@ -1,10 +1,10 @@
-/* Code von Vienna mobile Beispiel */
+/* Code teilweise von Vienna mobile Beispiel */
 
 // Zentrum Karte Objekt
 let stpolten = {
     lat: 48.33001133291213,
     lng: 16.060959034595086,
-    title: "St. Pölten, Niederösterreich"
+    title: "Wien Zentrum"
 }
 
 // Karte initialisieren und Fullscreen Control 
@@ -13,8 +13,6 @@ let map = L.map("map", {
 }).setView([
     48.2082, 16.3738 // Koordinaten des Zentrums von Wien
 ], 10);
-
-
 
 // thematische Layer
 let themaLayer = {
@@ -42,6 +40,31 @@ let eGrundkarteWien = L.control.layers({
     "Wettervorhersage MET Norway": themaLayer.forecast,
 }).addTo(map);
 
+//Geolocation
+map.locate({
+    setView: false,
+    maxZoom: 16,
+    watch: true,
+});
+
+let circle = L.circle([0, 0], 0).addTo(map);
+
+map.on('locationfound', function (evt) {
+    let radius = Math.round(evt.accuracy);
+    L.circle(evt.latlng, radius).addTo(map);
+    circle.setLatLng(evt.latlng);
+    circle.setRadius(radius);
+}
+);
+
+var errorDisplayed = false;
+
+map.on('locationerror', function (evt) {
+    if (!errorDisplayed) {
+        alert(evt.message);
+        errorDisplayed = true;
+    }
+});
 
 var gpx = './data/5_Unten-amp-Oben.gpx';
 new L.GPX(gpx, { async: true }, {
@@ -82,6 +105,38 @@ new L.GPX(gpx, { async: true }).on('loaded', function (e) {
 }).addTo(themaLayer.wienerwald);
 
 
+// Marker der größten Städte
+const STAEDTE = [
+    {
+        title: "St. Pölten, Niederösterreich",
+        lat: 48.18735,
+        lng: 15.64139,
+        wikipedia: "https://de.wikipedia.org/wiki/St._P%C3%B6lten"//Links raus oder anpassen?
+    },
+    {
+        title: "Tulln",
+        lat: 48.33001133291213,
+        lng: 16.060959034595086,
+        wikipedia: "https://de.wikipedia.org/wiki/Wien" //Links raus oder anpassen?
+    },
+    {
+        title: "Krems a.d. Donau",
+        lat: 48.41022698533108,
+        lng: 15.60382006192799,
+        wikipedia: "https://de.wikipedia.org/wiki/Eisenstadt"//Links raus oder anpassen?
+    },
+    {
+        title: "Baden bei Wien",
+        lat: 48.0024595018188,
+        lng: 16.230795040395048,
+        wikipedia: "https://de.wikipedia.org/wiki/Eisenstadt"//Links raus oder anpassen?
+    },
+]
+
+// Maßstab
+L.control.scale({
+    imperial: false,
+}).addTo(map);
 
 for (let stadt of STAEDTE) {
     //Marker für den Stopp
@@ -92,43 +147,12 @@ for (let stadt of STAEDTE) {
     `)
 };
 
-
-
-// Layer beim Besuch auf der Seite ausklappen
-layerControl.expand();
-
 // Instanz Leaflet MiniMap
 var miniMap = new L.Control.MiniMap(
     L.tileLayer.provider("BasemapAT.basemap"), {
     toggleDisplay: true,
 }
 ).addTo(map);
-
-//Geolocation
-map.locate({
-    setView: false,
-    maxZoom: 16,
-    watch: true,
-});
-
-let circle = L.circle([0, 0], 0).addTo(map);
-
-map.on('locationfound', function (evt) {
-    let radius = Math.round(evt.accuracy);
-    L.circle(evt.latlng, radius).addTo(map);
-    circle.setLatLng(evt.latlng);
-    circle.setRadius(radius);
-}
-);
-
-var errorDisplayed = false;
-
-map.on('locationerror', function (evt) {
-    if (!errorDisplayed) {
-        alert(evt.message);
-        errorDisplayed = true;
-    }
-});
 
 // Wettervorhersage MET Norway
 async function showForecast(url, latlng) {
@@ -199,38 +223,7 @@ ybbs.on("click", function (evt) {
 });
 
 
-// Marker der größten Städte
-const STAEDTE = [
-    {
-        title: "St. Pölten, Niederösterreich",
-        lat: 48.18735,
-        lng: 15.64139,
-        wikipedia: "https://de.wikipedia.org/wiki/St._P%C3%B6lten"//Links raus oder anpassen?
-    },
-    {
-        title: "Tulln",
-        lat: 48.33001133291213,
-        lng: 16.060959034595086,
-        wikipedia: "https://de.wikipedia.org/wiki/Wien" //Links raus oder anpassen?
-    },
-    {
-        title: "Krems a.d. Donau",
-        lat: 48.41022698533108,
-        lng: 15.60382006192799,
-        wikipedia: "https://de.wikipedia.org/wiki/Eisenstadt"//Links raus oder anpassen?
-    },
-    {
-        title: "Baden bei Wien",
-        lat: 48.0024595018188,
-        lng: 16.230795040395048,
-        wikipedia: "https://de.wikipedia.org/wiki/Eisenstadt"//Links raus oder anpassen?
-    },
-]
 
-// Maßstab
-L.control.scale({
-    imperial: false,
-}).addTo(map);
 
 
 
