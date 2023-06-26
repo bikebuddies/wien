@@ -27,7 +27,8 @@ let themaLayer = {
 // Hintergrundlayer 
 //noch den schöneren von der Hauptkarte einfügen, wenn wir das geschafft haben 
 let eGrundkarteWien = L.control.layers({
-    "OpenStreetMap": L.tileLayer.provider("OpenStreetMap.DE").addTo(map),
+    "Terrain": L.tileLayer.provider("Stamen.Terrain").addTo(map),
+    "OpenStreetMap": L.tileLayer.provider("OpenStreetMap.DE"),
     "OpenTopoMap": L.tileLayer.provider("OpenTopoMap"),
     "CycleTrails": L.tileLayer.provider("CyclOSM"),
 }, {
