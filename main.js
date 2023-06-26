@@ -176,8 +176,13 @@ map.on('locationfound', function (evt) {
 }
 );
 
+var errorDisplayed = false;
+
 map.on('locationerror', function (evt) {
-    alert(evt.message);
+    if (!errorDisplayed) {
+        alert(evt.message);
+        errorDisplayed = true;
+    }
 });
 
 
