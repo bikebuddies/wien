@@ -11,8 +11,8 @@ let stpolten = {
 let map = L.map("map", {
     fullscreenControl: true
 }).setView([
-    48.2082, 16.3738 // Koordinaten des Zentrums von Wien
-], 10);
+    48.17, 16.38 // Koordinaten des Zentrums von Wien
+], 11);
 
 // thematische Layer
 let themaLayer = {
