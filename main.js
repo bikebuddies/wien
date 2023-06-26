@@ -258,42 +258,6 @@ wasserzuwein.on("click", function (evt) {
 });
 
 
-// Marker der größten Städte
-const STAEDTE = [
-    {
-        title: "St. Pölten, Niederösterreich",
-        lat: 48.18735,
-        lng: 15.64139,
-        wikipedia: "https://de.wikipedia.org/wiki/St._P%C3%B6lten"//Links raus oder anpassen?
-    },
-    {
-        title: "Tulln",
-        lat: 48.33001133291213,
-        lng: 16.060959034595086,
-        wikipedia: "https://de.wikipedia.org/wiki/Wien" //Links raus oder anpassen?
-    },
-    {
-        title: "Krems a.d. Donau",
-        lat: 48.41022698533108,
-        lng: 15.60382006192799,
-        wikipedia: "https://de.wikipedia.org/wiki/Eisenstadt"//Links raus oder anpassen?
-    },
-    {
-        title: "Baden bei Wien",
-        lat: 48.0024595018188,
-        lng: 16.230795040395048,
-        wikipedia: "https://de.wikipedia.org/wiki/Eisenstadt"//Links raus oder anpassen?
-    },
-]
-
-for (let stadt of STAEDTE) {
-    //Marker für den Stopp
-    let marker = L.marker([stadt.lat, stadt.lng])
-        .addTo(map)
-        .bindPopup(`${stadt.title} <br>
-    <a href="${stop.wikipedia}">Wikipedia</a>
-    `)
-};
 
 
 
