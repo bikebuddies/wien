@@ -16,14 +16,13 @@ let map = L.map("map", {
 
 // thematische Layer
 let themaLayer = {
-    untenundoben: L.featureGroup(),
-    wienerwasser: L.featureGroup(),
-    donaustadt: L.featureGroup(),
-    wasserzuwein: L.featureGroup(),
-    wienerwald: L.featureGroup(),
+    untenundoben: L.featureGroup(), //https://www.mobilitaetsagentur.at/touren/#unten-oben
+    wienerwasser: L.featureGroup(), //https://www.mobilitaetsagentur.at/touren/#wiener-wasser
+    donaustadt: L.featureGroup(), //https://www.mobilitaetsagentur.at/touren/#donaustadt
+    wasserzuwein: L.featureGroup(), //https://www.mobilitaetsagentur.at/touren/#wasser-zu-wein
+    wienerwald: L.featureGroup(), //https://www.mobilitaetsagentur.at/touren/#euro-velo-9-wienerwald
     forecast: L.featureGroup(),
 }
-
 
 // Hintergrundlayer 
 //noch den schöneren von der Hauptkarte einfügen, wenn wir das geschafft haben 
@@ -76,23 +75,6 @@ map.on('locationerror', function (evt) {
     }
 });
 
-var gpx = './data/5_Unten-amp-Oben.gpx';
-new L.GPX(gpx, { async: true }, {
-    polyline_options: [{
-        color: '#76eec6',
-        opacity: 0.75,
-        weight: 3
-    }, {
-        color: '#76eec6',
-        opacity: 0.75,
-        weight: 3
-    }]
-}, {
-    marker_options: false // Marker ausschalten
-}).on('loaded', function (e) {
-    // map.fitBounds(e.target.getBounds());
-}).addTo(themaLayer.untenundoben);
-
 // Wettervorhersage MET Norway
 async function showForecast(url, latlng) {
     let response = await fetch(url);
@@ -133,25 +115,146 @@ map.on("click", function (evt) {
     showForecast(url, evt.latlng);
 });
 
+
+//GPX-Tracks
+//Unten und Oben Track
+var gpx = './data/5_Unten-amp-Oben.gpx';
+let kamp = new L.GPX(gpx, {
+    polyline_options: {
+        color: '#8B008B',
+        opacity: 0.75,
+        weight: 3
+    },
+    marker_options: {
+        startIconUrl: "icons/tab_cycle.png",
+        endIconUrl: false,
+        shadowUrl: false,
+        wptIconUrls: false
+    }
+}).addTo(themaLayer.untenundoben);
+// GPX Track visualisieren aus https://raruto.github.io/leaflet-elevation/
+kamp.on("click", function (evt) {
+    let controlElevation = L.control.elevation({
+        time: false,
+        elevationDiv: "#profile",
+        height: 300,
+        theme: "kamp-thaya"
+    }).addTo(map);
+    // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
+    controlElevation.load("./data/5_Unten-amp-Oben.gpx")
+});
+
+
+//Wienerwasser
 var gpx = './data/6_Wiener-Wasser.gpx';
-new L.GPX(gpx, { async: true }).on('loaded', function (e) {
-    //   map.fitBounds(e.target.getBounds());
+let wienerwasser = new L.GPX(gpx, {
+    polyline_options: {
+        color: '#FF1234',
+        opacity: 0.75,
+        weight: 3
+    },
+    marker_options: {
+        startIconUrl: "icons/tab_cycle.png",
+        endIconUrl: false,
+        shadowUrl: false,
+        wptIconUrls: false
+    }
 }).addTo(themaLayer.wienerwasser);
+// GPX Track visualisieren aus https://raruto.github.io/leaflet-elevation/
+wienerwasser.on("click", function (evt) {
+    let controlElevation = L.control.elevation({
+        time: false,
+        elevationDiv: "#profile",
+        height: 300,
+        theme: "kamp-thaya"
+    }).addTo(map);
+    // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
+    controlElevation.load("./data/6_Wiener-Wasser.gpx")
+});
 
+
+//Donaustadt
 var gpx = './data/donaustadt.gpx';
-new L.GPX(gpx, { async: true }).on('loaded', function (e) {
-    //   map.fitBounds(e.target.getBounds());
+let donaustadt = new L.GPX(gpx, {
+    polyline_options: {
+        color: '#00FF00',
+        opacity: 0.75,
+        weight: 3
+    },
+    marker_options: {
+        startIconUrl: "icons/tab_cycle.png",
+        endIconUrl: false,
+        shadowUrl: false,
+        wptIconUrls: false
+    }
 }).addTo(themaLayer.donaustadt);
+// GPX Track visualisieren aus https://raruto.github.io/leaflet-elevation/
+donaustadt.on("click", function (evt) {
+    let controlElevation = L.control.elevation({
+        time: false,
+        elevationDiv: "#profile",
+        height: 300,
+        theme: "kamp-thaya"
+    }).addTo(map);
+    // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
+    controlElevation.load("./data/donaustadt.gpx")
+});
 
-var gpx = './data/wasser-zu-Wein.gpx';
-new L.GPX(gpx, { async: true }).on('loaded', function (e) {
-    //   map.fitBounds(e.target.getBounds());
+
+//Wasser zu Wein
+var gpx = './data/Wasser-zu-Wein.gpx';
+let wasserzuwein = new L.GPX(gpx, {
+    polyline_options: {
+        color: '#000000',
+        opacity: 0.75,
+        weight: 3
+    },
+    marker_options: {
+        startIconUrl: "icons/tab_cycle.png",
+        endIconUrl: false,
+        shadowUrl: false,
+        wptIconUrls: false
+    }
 }).addTo(themaLayer.wasserzuwein);
+// GPX Track visualisieren aus https://raruto.github.io/leaflet-elevation/
+wasserzuwein.on("click", function (evt) {
+    let controlElevation = L.control.elevation({
+        time: false,
+        elevationDiv: "#profile",
+        height: 300,
+        theme: "kamp-thaya"
+    }).addTo(map);
+    // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
+    controlElevation.load("./data/Wasser-zu-Wein.gpx")
+});
 
-var gpx = './data/wienerwald.gpx';
-new L.GPX(gpx, { async: true }).on('loaded', function (e) {
-    //   map.fitBounds(e.target.getBounds());
+
+//Wienerwald
+var gpx = './data/Wienerwald.gpx';
+let winerwald = new L.GPX(gpx, {
+    polyline_options: {
+        color: '#00008B',
+        opacity: 0.75,
+        weight: 3
+    },
+    marker_options: {
+        startIconUrl: "icons/tab_cycle.png",
+        endIconUrl: false,
+        shadowUrl: false,
+        wptIconUrls: false
+    }
 }).addTo(themaLayer.wienerwald);
+// GPX Track visualisieren aus https://raruto.github.io/leaflet-elevation/
+wasserzuwein.on("click", function (evt) {
+    let controlElevation = L.control.elevation({
+        time: false,
+        elevationDiv: "#profile",
+        height: 300,
+        theme: "wienerwald"
+    }).addTo(map);
+    // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
+    controlElevation.load("./data/Wienerwald.gpx")
+});
 
 
 // Marker der größten Städte
@@ -182,11 +285,6 @@ const STAEDTE = [
     },
 ]
 
-// Maßstab
-L.control.scale({
-    imperial: false,
-}).addTo(map);
-
 for (let stadt of STAEDTE) {
     //Marker für den Stopp
     let marker = L.marker([stadt.lat, stadt.lng])
@@ -198,48 +296,10 @@ for (let stadt of STAEDTE) {
 
 
 
-//GPX-Tracks
-//Unten und Oben Radweg Wien
-var gpx = './data/5_Unten-amp-Oben.gpx';
-let ybbs = new L.GPX(gpx, {
-    polyline_options: {
-        color: '#EEDD82',
-        opacity: 0.75,
-        weight: 3
-    },
-    marker_options: {
-        startIconUrl: "icons/tab_cycle.png",
-        endIconUrl: false,
-        shadowUrl: false,
-        wptIconUrls: false
-    }
-}).addTo(themaLayer.ybbstal);
-// GPX Track visualisieren aus https://raruto.github.io/leaflet-elevation/
-ybbs.on("click", function (evt) {
-    let controlElevation = L.control.elevation({
-        time: false,
-        elevationDiv: "#profile",
-        height: 300,
-        theme: "untenundoben"
-    }).addTo(map);
-    // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
-    controlElevation.load("./data/5_Unten-amp-Oben.gpx")
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Maßstab
+L.control.scale({
+    imperial: false,
+}).addTo(map);
 
 // //GPX-Track visualisieren -> Höhenprofile (es sind noch nicht alle)
 // let controlElevation = L.control.elevation({
