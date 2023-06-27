@@ -72,7 +72,7 @@ var errorDisplayed = false;
 map.on('locationerror', function (evt) {
     if (!errorDisplayed) {
         alert(evt.message);
-        errorDisplayed = true;
+        errorDisplayed = false;
     }
 });
 
