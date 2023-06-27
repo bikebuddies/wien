@@ -228,7 +228,7 @@ wasserzuwein.on("click", function (evt) {
 
 //Wienerwald
 var gpx = './data/Wienerwald.gpx';
-let winerwald = new L.GPX(gpx, {
+let wienerwald = new L.GPX(gpx, {
     polyline_options: {
         color: '#EED5B7',
         opacity: 0.75,
@@ -242,7 +242,7 @@ let winerwald = new L.GPX(gpx, {
     }
 }).addTo(themaLayer.wienerwald);
 // GPX Track visualisieren aus https://raruto.github.io/leaflet-elevation/
-wasserzuwein.on("click", function (evt) {
+wienerwald.on("click", function (evt) {
     let controlElevation = L.control.elevation({
         time: false,
         elevationDiv: "#profile",
