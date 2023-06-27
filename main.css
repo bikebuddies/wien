@@ -31,15 +31,20 @@ header {
     background-position: center;
     opacity: 1; 
 }
+/* Quelle Header-Bild: https://pixabay.com/de/photos/zaun-fahrrad-alt-blumen-dekoration-4520086/ */
+
+h1 {
+    color: rgb(255, 255, 255);
+}
 
 header h2 {
     margin: 0;
     font-size: 1.5rem;
     font-weight: bold;
     color: #000000;
-    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.1);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Leichter Schatten als Rand */
     padding: 1px;
-    background-color: #ffffff;
+    background-color: #f2f2f2;
 }
 
 header nav {
