@@ -65,7 +65,7 @@ map.on('locationfound', function (evt) {
 }
 );
 
-var errorDisplayed = false;
+let errorDisplayed = false;
 
 map.on('locationerror', function (evt) {
     if (!errorDisplayed) {
@@ -98,12 +98,10 @@ async function showForecast(url, latlng) {
 
     // Wettersymbole hinzufügen
     for (let i = 0; i <= 24; i += 3) {
-        //console.log(timeseries[i]);
         let icon = timeseries[i].data.next_1_hours.summary.symbol_code;
         let img = `icons/${icon}.svg`;
         markup += `<img src="${img}" style="width:32px;" title="${timeseries[i].time.toLocaleString()}">`
-        //console.log(icon, img);
-    }
+    };
     L.popup().setLatLng(latlng).setContent(markup).openOn(themaLayer.forecast);
 };
 
@@ -120,7 +118,7 @@ map.on("click", function (evt) {
 var gpx = './data/5_Unten-amp-Oben.gpx';
 let kamp = new L.GPX(gpx, {
     polyline_options: {
-        color: '#8B008B',
+        color: '#E9967A',
         opacity: 0.75,
         weight: 3
     },
@@ -137,7 +135,7 @@ kamp.on("click", function (evt) {
         time: false,
         elevationDiv: "#profile",
         height: 300,
-        theme: "kamp-thaya"
+        theme: "unten_oben"
     }).addTo(map);
     // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
     controlElevation.load("./data/5_Unten-amp-Oben.gpx")
@@ -148,7 +146,7 @@ kamp.on("click", function (evt) {
 var gpx = './data/6_Wiener-Wasser.gpx';
 let wienerwasser = new L.GPX(gpx, {
     polyline_options: {
-        color: '#FF1234',
+        color: '#FF8247',
         opacity: 0.75,
         weight: 3
     },
@@ -165,7 +163,7 @@ wienerwasser.on("click", function (evt) {
         time: false,
         elevationDiv: "#profile",
         height: 300,
-        theme: "kamp-thaya"
+        theme: "wiener_wasser"
     }).addTo(map);
     // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
     controlElevation.load("./data/6_Wiener-Wasser.gpx")
@@ -176,7 +174,7 @@ wienerwasser.on("click", function (evt) {
 var gpx = './data/donaustadt.gpx';
 let donaustadt = new L.GPX(gpx, {
     polyline_options: {
-        color: '#00FF00',
+        color: '#FFA500',
         opacity: 0.75,
         weight: 3
     },
@@ -193,7 +191,7 @@ donaustadt.on("click", function (evt) {
         time: false,
         elevationDiv: "#profile",
         height: 300,
-        theme: "kamp-thaya"
+        theme: "donaustadt"
     }).addTo(map);
     // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
     controlElevation.load("./data/donaustadt.gpx")
@@ -204,7 +202,7 @@ donaustadt.on("click", function (evt) {
 var gpx = './data/Wasser-zu-Wein.gpx';
 let wasserzuwein = new L.GPX(gpx, {
     polyline_options: {
-        color: '#000000',
+        color: '#FFDAB9',
         opacity: 0.75,
         weight: 3
     },
@@ -221,7 +219,7 @@ wasserzuwein.on("click", function (evt) {
         time: false,
         elevationDiv: "#profile",
         height: 300,
-        theme: "kamp-thaya"
+        theme: "wasser_wein"
     }).addTo(map);
     // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
     controlElevation.load("./data/Wasser-zu-Wein.gpx")
@@ -232,7 +230,7 @@ wasserzuwein.on("click", function (evt) {
 var gpx = './data/Wienerwald.gpx';
 let winerwald = new L.GPX(gpx, {
     polyline_options: {
-        color: '#00008B',
+        color: '#EED5B7',
         opacity: 0.75,
         weight: 3
     },
@@ -298,97 +296,3 @@ for (let badeseen of BADESEEN) {
 L.control.scale({
     imperial: false,
 }).addTo(map);
-
-// //GPX-Track visualisieren -> Höhenprofile (es sind noch nicht alle)
-// let controlElevation = L.control.elevation({
-//     time: false,
-//     elevationDiv: "#profile",
-//     height: 300,
-//     theme: "Radtouren Niederösterreich"
-// }).addTo(themaLayer.route);
-// controlElevation.load("data/niederoesterreich/piestingtal.gpx");
-
-// //GPX-Track visualisieren
-// let controlElevation1 = L.control.elevation({
-//     time: false,
-//     elevationDiv: "#profile",
-//     height: 300,
-//     theme: "Radtouren Niederösterreich"
-// }).addTo(themaLayer.route);
-// controlElevation1.load("data/niederoesterreich/kamp_thaya_march.gpx")
-
-// //GPX-Track visualisieren
-// let controlElevation2 = L.control.elevation({
-//     time: false,
-//     elevationDiv: "#profile",
-//     height: 300,
-//     theme: "Radtouren Niederösterreich"
-// }).addTo(themaLayer.route);
-// controlElevation2.load("data/niederoesterreich/thayarunde.gpx")
-
-// //GPX-Track visualisieren
-// let controlElevation3 = L.control.elevation({
-//     time: false,
-//     elevationDiv: "#profile",
-//     height: 300,
-//     theme: "Radtouren Niederösterreich"
-// }).addTo(themaLayer.route);
-// controlElevation3.load("data/niederoesterreich/traisentalweg.gpx")
-
-// //GPX-Track visualisieren
-// let controlElevation4 = L.control.elevation({
-//     time: false,
-//     elevationDiv: "#profile",
-//     height: 300,
-//     theme: "Radtouren Niederösterreich"
-// }).addTo(themaLayer.route);
-// controlElevation4.load("triesting_goelsental.gpx")
-
-// //GPX-Track visualisieren
-// let controlElevation5 = L.control.elevation({
-//     time: false,
-//     elevationDiv: "#profile",
-//     height: 300,
-//     theme: "Radtouren Niederösterreich"
-// }).addTo(themaLayer.route);
-// controlElevation5.load("data/niederoesterreich/traisentalweg.gpx")
-
-//Kommentare aus der start-Seite
-/* Pulldownmenü Code
-//Pulldown für Navigation
-let pulldown = document.querySelector("#pulldown");
-for (let etappe of ETAPPEN) {
-    //console.log(etappe);
-    let status = "";
-    if (etappe.nr == "20") {
-        status = "selected";
-    }
-    pulldown.innerHTML += `<option ${status} value="${etappe.user}">Etappe ${etappe.nr}: ${etappe.etappe}</option>`
-}
-
-// auf Änderungen im Pulldown reagieren
-pulldown.onchange = function(evt) {
-    //console.log(pulldown.value);
-    let url = `https://${pulldown.value}.github.io/biketirol`;
-    //console.log(url);
-    window.location.href = url;
-}
-*/
-
-/*
-let circle = L.circle([0, 0], 0).addTo(map);
-let marker = L.marker([0, 0], 0).addTo(map);
-
-map.on('locationfound', function onLocationFound(evt) {
-    console.log(evt);
-    let radius = Math.round(evt.accuracy);
-    marker.setLatLng(evt.latlng);
-    marker.bindTooltip(`You are within ${radius} meters from this point`).openTooltip();
-    circle.setLatLng(evt.latlng);
-    circle.setRadius(radius);
-});
-
-map.on('locationerror', function onLocationError(evt) {
-    alert(evt.message);
-});
-*/
