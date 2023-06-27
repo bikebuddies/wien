@@ -1,9 +1,7 @@
-/* Code teilweise von Vienna mobile Beispiel */
-
 // Zentrum Karte Objekt
-let stpolten = {
-    lat: 48.33001133291213,
-    lng: 16.060959034595086,
+let wien = {
+    lat: 48.208493,
+    lng: 16.373118,
     title: "Wien Zentrum"
 }
 
