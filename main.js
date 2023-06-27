@@ -8,8 +8,8 @@ let wien = {
 // Karte initialisieren und Fullscreen Control 
 let map = L.map("map", {
     fullscreenControl: true
-}).setView([
-    48.17, 16.38 // Koordinaten des Zentrums von Wien
+    }).setView([
+    wien.lat, wien.lng
 ], 11);
 
 // thematische Layer
@@ -24,11 +24,9 @@ let themaLayer = {
 }
 
 //Hintergrundlayer 
-//noch den schöneren von der Hauptkarte einfügen, wenn wir das geschafft haben 
-let eGrundkarteWien = L.control.layers({
-    "Terrain": L.tileLayer.provider("Stamen.Terrain").addTo(map),
-    "OpenStreetMap": L.tileLayer.provider("OpenStreetMap.DE"),
-    "OpenTopoMap": L.tileLayer.provider("OpenTopoMap"),
+let layerControl = L.control.layers({
+    "BasemapÖsterreich": L.tileLayer.provider("BasemapAT.grau").addTo(map),
+    "StamenB/W": L.tileLayer.provider("Stamen.TonerLite"),
     "CycleTrails": L.tileLayer.provider("CyclOSM"),
 }, {
     "Unten und Oben": themaLayer.untenundoben.addTo(map),
@@ -41,7 +39,7 @@ let eGrundkarteWien = L.control.layers({
 }).addTo(map);
 
 // Layer beim Besuch auf der Seite ausklappen
-//layerControl.expand(); //funktioniert leider nicht
+layerControl.expand(); 
 
 // Instanz Leaflet MiniMap
 var miniMap = new L.Control.MiniMap(
@@ -261,23 +259,23 @@ wasserzuwein.on("click", function (evt) {
 //Badeseen
 const BADESEEN = [
     {
-        title: "Badeteich Hirschstetten", 
-        lat: 48.24409868606938, 
+        title: "Badeteich Hirschstetten",
+        lat: 48.24409868606938,
         lng: 16.47893976489515,
     },
     {
-        title: "Dechantlacke", 
+        title: "Dechantlacke",
         lat: 48.19111090673952,
         lng: 16.476402395256347,
     },
     {
-        title: "Wienerbergteich", 
+        title: "Wienerbergteich",
         lat: 48.161023220047774,
         lng: 16.35031677503551
     },
     {
-        title: "Haderdorfer Bad", 
-        lat: 48.208558890188606,  
+        title: "Haderdorfer Bad",
+        lat: 48.208558890188606,
         lng: 16.222905203752738,
     }
 ];
