@@ -8,7 +8,7 @@ let wien = {
 // Karte initialisieren und Fullscreen Control 
 let map = L.map("map", {
     fullscreenControl: true
-    }).setView([
+}).setView([
     wien.lat, wien.lng
 ], 11);
 
@@ -39,7 +39,7 @@ let layerControl = L.control.layers({
 }).addTo(map);
 
 // Layer beim Besuch auf der Seite ausklappen
-layerControl.expand(); 
+layerControl.expand();
 
 // Instanz Leaflet MiniMap
 var miniMap = new L.Control.MiniMap(
