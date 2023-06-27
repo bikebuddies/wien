@@ -21,6 +21,7 @@ let themaLayer = {
     wienerwald: L.featureGroup(), //https://www.mobilitaetsagentur.at/touren/#euro-velo-9-wienerwald
     forecast: L.featureGroup(),
     badeseen: L.featureGroup(),
+    eisdielen: L.featureGroup(),    
 }
 
 //Hintergrundlayer 
@@ -35,7 +36,8 @@ let layerControl = L.control.layers({
     "Wasser zu Wein": themaLayer.wasserzuwein.addTo(map),
     "Wienerwald": themaLayer.wienerwald.addTo(map),
     "Wettervorhersage MET Norway": themaLayer.forecast,
-    "Badeseen": themaLayer.badeseen
+    "Badeseen": themaLayer.badeseen,
+    "Eisdielen": themaLayer.eisdielen,
 }).addTo(map);
 
 // Layer beim Besuch auf der Seite ausklappen
@@ -70,7 +72,7 @@ let errorDisplayed = false;
 map.on('locationerror', function (evt) {
     if (!errorDisplayed) {
         alert(evt.message);
-        errorDisplayed = true;
+        errorDisplayed = false;
     }
 });
 
@@ -291,6 +293,47 @@ for (let badeseen of BADESEEN) {
     `)
 };
 
+//Eisdielen
+const EISDIELEN = [
+    {
+        title: "Fronza Eis",
+        lat: 48.19864267663566, 
+        lng: 16.3039275684357,
+    },
+    {
+        title: "Eissalon Meidling",
+        lat: 48.17927317287761,
+        lng: 16.32913665409668,
+    },
+    {
+        title: "Gelateria Wind´s Zanetti",
+        lat: 48.169156073362345,
+        lng: 16.42063136146428,
+    },
+    {
+        title: "Die Eismacherei",
+        lat: 48.243153333136995, 
+        lng: 16.446537222703608,
+    },
+    {
+        title: "Eissalon Fronza",
+        lat: 48.25494018991937,
+        lng: 16.365820778581462,
+    }
+];
+
+for (let eisdielen of EISDIELEN) {
+    L.marker([eisdielen.lat, eisdielen.lng], {
+        icon: L.icon({
+            iconUrl: `icons/icecream.png`,
+            popupAnchor: [0, -37],
+            iconAnchor: [16, 37],
+        })
+    })
+        .addTo(themaLayer.eisdielen)
+        .bindPopup(`<b>${eisdielen.title}</b> <br>
+    `)
+};
 
 // Maßstab
 L.control.scale({
