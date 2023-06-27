@@ -25,10 +25,11 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: #ffffff;
+    background-color: #dacfba;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-image: url('pictures/header.png'); 
     background-position: center;
-    opacity: 1;
+    opacity: 1; 
 }
 
 header h2 {
