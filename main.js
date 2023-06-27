@@ -1,9 +1,7 @@
-/* Code teilweise von Vienna mobile Beispiel */
-
 // Zentrum Karte Objekt
-let stpolten = {
-    lat: 48.33001133291213,
-    lng: 16.060959034595086,
+let wien = {
+    lat: 48.208493,
+    lng: 16.373118,
     title: "Wien Zentrum"
 }
 
@@ -11,7 +9,7 @@ let stpolten = {
 let map = L.map("map", {
     fullscreenControl: true
 }).setView([
-    48.17, 16.38 // Koordinaten des Zentrums von Wien
+    wien.lat, wien.lng
 ], 11);
 
 // thematische Layer
@@ -22,14 +20,13 @@ let themaLayer = {
     wasserzuwein: L.featureGroup(), //https://www.mobilitaetsagentur.at/touren/#wasser-zu-wein
     wienerwald: L.featureGroup(), //https://www.mobilitaetsagentur.at/touren/#euro-velo-9-wienerwald
     forecast: L.featureGroup(),
+    badeseen: L.featureGroup(),
 }
 
-// Hintergrundlayer 
-//noch den schöneren von der Hauptkarte einfügen, wenn wir das geschafft haben 
-let eGrundkarteWien = L.control.layers({
-    "Terrain": L.tileLayer.provider("Stamen.Terrain").addTo(map),
-    "OpenStreetMap": L.tileLayer.provider("OpenStreetMap.DE"),
-    "OpenTopoMap": L.tileLayer.provider("OpenTopoMap"),
+//Hintergrundlayer 
+let layerControl = L.control.layers({
+    "BasemapÖsterreich": L.tileLayer.provider("BasemapAT.grau").addTo(map),
+    "StamenB/W": L.tileLayer.provider("Stamen.TonerLite"),
     "CycleTrails": L.tileLayer.provider("CyclOSM"),
 }, {
     "Unten und Oben": themaLayer.untenundoben.addTo(map),
@@ -38,10 +35,11 @@ let eGrundkarteWien = L.control.layers({
     "Wasser zu Wein": themaLayer.wasserzuwein.addTo(map),
     "Wienerwald": themaLayer.wienerwald.addTo(map),
     "Wettervorhersage MET Norway": themaLayer.forecast,
+    "Badeseen": themaLayer.badeseen
 }).addTo(map);
 
 // Layer beim Besuch auf der Seite ausklappen
-//layerControl.expand(); //funktioniert leider nicht
+layerControl.expand();
 
 // Instanz Leaflet MiniMap
 var miniMap = new L.Control.MiniMap(
@@ -67,7 +65,7 @@ map.on('locationfound', function (evt) {
 }
 );
 
-var errorDisplayed = false;
+let errorDisplayed = false;
 
 map.on('locationerror', function (evt) {
     if (!errorDisplayed) {
@@ -100,12 +98,10 @@ async function showForecast(url, latlng) {
 
     // Wettersymbole hinzufügen
     for (let i = 0; i <= 24; i += 3) {
-        //console.log(timeseries[i]);
         let icon = timeseries[i].data.next_1_hours.summary.symbol_code;
         let img = `icons/${icon}.svg`;
         markup += `<img src="${img}" style="width:32px;" title="${timeseries[i].time.toLocaleString()}">`
-        //console.log(icon, img);
-    }
+    };
     L.popup().setLatLng(latlng).setContent(markup).openOn(themaLayer.forecast);
 };
 
@@ -122,7 +118,7 @@ map.on("click", function (evt) {
 var gpx = './data/5_Unten-amp-Oben.gpx';
 let kamp = new L.GPX(gpx, {
     polyline_options: {
-        color: '#8B008B',
+        color: '#E9967A',
         opacity: 0.75,
         weight: 3
     },
@@ -139,7 +135,7 @@ kamp.on("click", function (evt) {
         time: false,
         elevationDiv: "#profile",
         height: 300,
-        theme: "kamp-thaya"
+        theme: "unten_oben"
     }).addTo(map);
     // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
     controlElevation.load("./data/5_Unten-amp-Oben.gpx")
@@ -150,7 +146,7 @@ kamp.on("click", function (evt) {
 var gpx = './data/6_Wiener-Wasser.gpx';
 let wienerwasser = new L.GPX(gpx, {
     polyline_options: {
-        color: '#FF1234',
+        color: '#FF8247',
         opacity: 0.75,
         weight: 3
     },
@@ -167,7 +163,7 @@ wienerwasser.on("click", function (evt) {
         time: false,
         elevationDiv: "#profile",
         height: 300,
-        theme: "kamp-thaya"
+        theme: "wiener_wasser"
     }).addTo(map);
     // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
     controlElevation.load("./data/6_Wiener-Wasser.gpx")
@@ -178,7 +174,7 @@ wienerwasser.on("click", function (evt) {
 var gpx = './data/donaustadt.gpx';
 let donaustadt = new L.GPX(gpx, {
     polyline_options: {
-        color: '#00FF00',
+        color: '#FFA500',
         opacity: 0.75,
         weight: 3
     },
@@ -195,7 +191,7 @@ donaustadt.on("click", function (evt) {
         time: false,
         elevationDiv: "#profile",
         height: 300,
-        theme: "kamp-thaya"
+        theme: "donaustadt"
     }).addTo(map);
     // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
     controlElevation.load("./data/donaustadt.gpx")
@@ -206,7 +202,7 @@ donaustadt.on("click", function (evt) {
 var gpx = './data/Wasser-zu-Wein.gpx';
 let wasserzuwein = new L.GPX(gpx, {
     polyline_options: {
-        color: '#000000',
+        color: '#FFDAB9',
         opacity: 0.75,
         weight: 3
     },
@@ -223,7 +219,7 @@ wasserzuwein.on("click", function (evt) {
         time: false,
         elevationDiv: "#profile",
         height: 300,
-        theme: "kamp-thaya"
+        theme: "wasser_wein"
     }).addTo(map);
     // Load track from url (allowed data types: "*.geojson", "*.gpx", "*.tcx")
     controlElevation.load("./data/Wasser-zu-Wein.gpx")
@@ -234,7 +230,7 @@ wasserzuwein.on("click", function (evt) {
 var gpx = './data/Wienerwald.gpx';
 let winerwald = new L.GPX(gpx, {
     polyline_options: {
-        color: '#00008B',
+        color: '#EED5B7',
         opacity: 0.75,
         weight: 3
     },
@@ -258,140 +254,45 @@ wasserzuwein.on("click", function (evt) {
 });
 
 
-// Marker der größten Städte
-const STAEDTE = [
+//Badeseen
+const BADESEEN = [
     {
-        title: "St. Pölten, Niederösterreich",
-        lat: 48.18735,
-        lng: 15.64139,
-        wikipedia: "https://de.wikipedia.org/wiki/St._P%C3%B6lten"//Links raus oder anpassen?
+        title: "Badeteich Hirschstetten",
+        lat: 48.24409868606938,
+        lng: 16.47893976489515,
     },
     {
-        title: "Tulln",
-        lat: 48.33001133291213,
-        lng: 16.060959034595086,
-        wikipedia: "https://de.wikipedia.org/wiki/Wien" //Links raus oder anpassen?
+        title: "Dechantlacke",
+        lat: 48.19111090673952,
+        lng: 16.476402395256347,
     },
     {
-        title: "Krems a.d. Donau",
-        lat: 48.41022698533108,
-        lng: 15.60382006192799,
-        wikipedia: "https://de.wikipedia.org/wiki/Eisenstadt"//Links raus oder anpassen?
+        title: "Wienerbergteich",
+        lat: 48.161023220047774,
+        lng: 16.35031677503551
     },
     {
-        title: "Baden bei Wien",
-        lat: 48.0024595018188,
-        lng: 16.230795040395048,
-        wikipedia: "https://de.wikipedia.org/wiki/Eisenstadt"//Links raus oder anpassen?
-    },
-]
+        title: "Haderdorfer Bad",
+        lat: 48.208558890188606,
+        lng: 16.222905203752738,
+    }
+];
 
-for (let stadt of STAEDTE) {
-    //Marker für den Stopp
-    let marker = L.marker([stadt.lat, stadt.lng])
-        .addTo(map)
-        .bindPopup(`${stadt.title} <br>
-    <a href="${stop.wikipedia}">Wikipedia</a>
+for (let badeseen of BADESEEN) {
+    L.marker([badeseen.lat, badeseen.lng], {
+        icon: L.icon({
+            iconUrl: `icons/swimming.png`,
+            popupAnchor: [0, -37],
+            iconAnchor: [16, 37],
+        })
+    })
+        .addTo(themaLayer.badeseen)
+        .bindPopup(`<b>${badeseen.title}</b> <br>
     `)
 };
-
 
 
 // Maßstab
 L.control.scale({
     imperial: false,
 }).addTo(map);
-
-// //GPX-Track visualisieren -> Höhenprofile (es sind noch nicht alle)
-// let controlElevation = L.control.elevation({
-//     time: false,
-//     elevationDiv: "#profile",
-//     height: 300,
-//     theme: "Radtouren Niederösterreich"
-// }).addTo(themaLayer.route);
-// controlElevation.load("data/niederoesterreich/piestingtal.gpx");
-
-// //GPX-Track visualisieren
-// let controlElevation1 = L.control.elevation({
-//     time: false,
-//     elevationDiv: "#profile",
-//     height: 300,
-//     theme: "Radtouren Niederösterreich"
-// }).addTo(themaLayer.route);
-// controlElevation1.load("data/niederoesterreich/kamp_thaya_march.gpx")
-
-// //GPX-Track visualisieren
-// let controlElevation2 = L.control.elevation({
-//     time: false,
-//     elevationDiv: "#profile",
-//     height: 300,
-//     theme: "Radtouren Niederösterreich"
-// }).addTo(themaLayer.route);
-// controlElevation2.load("data/niederoesterreich/thayarunde.gpx")
-
-// //GPX-Track visualisieren
-// let controlElevation3 = L.control.elevation({
-//     time: false,
-//     elevationDiv: "#profile",
-//     height: 300,
-//     theme: "Radtouren Niederösterreich"
-// }).addTo(themaLayer.route);
-// controlElevation3.load("data/niederoesterreich/traisentalweg.gpx")
-
-// //GPX-Track visualisieren
-// let controlElevation4 = L.control.elevation({
-//     time: false,
-//     elevationDiv: "#profile",
-//     height: 300,
-//     theme: "Radtouren Niederösterreich"
-// }).addTo(themaLayer.route);
-// controlElevation4.load("triesting_goelsental.gpx")
-
-// //GPX-Track visualisieren
-// let controlElevation5 = L.control.elevation({
-//     time: false,
-//     elevationDiv: "#profile",
-//     height: 300,
-//     theme: "Radtouren Niederösterreich"
-// }).addTo(themaLayer.route);
-// controlElevation5.load("data/niederoesterreich/traisentalweg.gpx")
-
-//Kommentare aus der start-Seite
-/* Pulldownmenü Code
-//Pulldown für Navigation
-let pulldown = document.querySelector("#pulldown");
-for (let etappe of ETAPPEN) {
-    //console.log(etappe);
-    let status = "";
-    if (etappe.nr == "20") {
-        status = "selected";
-    }
-    pulldown.innerHTML += `<option ${status} value="${etappe.user}">Etappe ${etappe.nr}: ${etappe.etappe}</option>`
-}
-
-// auf Änderungen im Pulldown reagieren
-pulldown.onchange = function(evt) {
-    //console.log(pulldown.value);
-    let url = `https://${pulldown.value}.github.io/biketirol`;
-    //console.log(url);
-    window.location.href = url;
-}
-*/
-
-/*
-let circle = L.circle([0, 0], 0).addTo(map);
-let marker = L.marker([0, 0], 0).addTo(map);
-
-map.on('locationfound', function onLocationFound(evt) {
-    console.log(evt);
-    let radius = Math.round(evt.accuracy);
-    marker.setLatLng(evt.latlng);
-    marker.bindTooltip(`You are within ${radius} meters from this point`).openTooltip();
-    circle.setLatLng(evt.latlng);
-    circle.setRadius(radius);
-});
-
-map.on('locationerror', function onLocationError(evt) {
-    alert(evt.message);
-});
-*/
